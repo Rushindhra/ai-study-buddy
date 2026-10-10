@@ -1,0 +1,24 @@
+Database Normalization (DBMS Notes)
+
+1. What is normalization?
+Normalization is the process of organizing the tables of a relational database to reduce data redundancy and improve data integrity. A badly designed table repeats the same data in many rows, which wastes space and causes anomalies.
+
+2. Anomalies
+- Insertion anomaly: you cannot add some data without also adding unrelated data (for example, you cannot record a new course until a student enrols in it).
+- Update anomaly: the same fact is stored in many rows, so changing it in one row but not the others leaves inconsistent data.
+- Deletion anomaly: deleting a row accidentally removes other useful facts (for example, deleting the last student of a course also deletes the course details).
+
+3. Functional dependency
+A functional dependency X -> Y means that if two rows have the same value of X, they must have the same value of Y. Example: StudentID -> StudentName.
+
+4. Normal forms
+- First Normal Form (1NF): every column contains atomic (indivisible) values, there are no repeating groups, and each row is unique.
+- Second Normal Form (2NF): the table is in 1NF and has no partial dependency. A partial dependency exists when a non-key attribute depends on only part of a composite primary key.
+- Third Normal Form (3NF): the table is in 2NF and has no transitive dependency. A transitive dependency exists when a non-key attribute depends on another non-key attribute instead of directly on the primary key.
+- Boyce-Codd Normal Form (BCNF): a stricter version of 3NF. For every functional dependency X -> Y, X must be a super key.
+
+5. Example of 2NF
+Table Enrollment(StudentID, CourseID, StudentName, Grade) has the composite key (StudentID, CourseID). StudentName depends only on StudentID, which is a partial dependency. To reach 2NF, split it into Student(StudentID, StudentName) and Enrollment(StudentID, CourseID, Grade).
+
+6. Trade-off
+Higher normal forms reduce redundancy but need more joins when reading data. Sometimes designers deliberately denormalize a database to make queries faster.
